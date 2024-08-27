@@ -1,0 +1,29 @@
+{% extends 'base.html'%}
+
+{%block title%}登入{% endblock %}
+
+{% block main%}
+<div style="max-width: 330px;" class="m-auto">
+  <h2>登入</h2>
+  <form action="" method="post">
+      {% csrf_token %}
+      <div class="mb-3">
+          <label>電子信箱</label>
+          <input type="email" name="email" class="form-control" placeholder="電子信箱">
+      </div>
+      <div class="mb-3">
+          <label>密碼</label>
+          <input type="password" name="password" class="form-control" placeholder="密碼">
+      </div>
+      <div class="form-check mb-3">
+          <input class="form-check-input" type="checkbox" name="remember" value="1" id="flexCheckDefault">
+          <label class="form-check-label" for="flexCheckDefault">
+            記住我
+          </label>
+      </div>
+      <div class="mb-3">
+          <button class="btn btn-primary w-100">立即登入</button>
+      </div>
+  </form>
+</div>
+{% endblock %}

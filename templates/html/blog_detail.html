@@ -1,0 +1,56 @@
+{% extends 'base.html'%}
+
+{% block head%}
+<link rel="stylesheet" href="{% static 'highlight/styles/github-dark.min.css' %}">
+<script src="{% static 'highlight/highlight.min.js'%}"></script>
+{% endblock %}
+
+{% block title %}文章詳情{% endblock %}
+
+{% block main %}
+<h1>{{ blog.title }}</h1>
+<hr>
+<div class="mt-2">
+  <img src="{% static 'image/head.png' %}" class="rounded-circle" width="30" height="30" alt="">
+  <span class="ms-2">{{ blog.author.username }}</span>
+  <span class="ms-2">在</span>
+  <span class="ms-2">{{ blog.pub_time }}</span>發布
+</div>
+<hr>
+<div class="py-2">
+  {{ blog.content|safe }}
+</div>
+<hr>
+<div class="mt-2">
+  <h3>留言({{ blog.comments.count }})</h3>
+  <form action="{% url 'blog:pub_comment' %}" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="blog_id" value="{{ blog.id }}">
+      <div class="mt-2">
+          <input type="text" name="content" class="form-control" placeholder="請輸入留言">
+      </div>
+      <div class="text-end mt-2">
+          <button type="submit" class="btn btn-primary">發送</button>
+      </div>
+  </form>
+</div>
+<div class="mt-2">
+  <ul class="list-group list-group-flush">
+      {% for comment in blog.comments.all %}
+      <li class="list-group-item mb-3">
+          <div class="d-flex justify-content-between text-secondary">
+              <div class="userinfo">
+                  <img src="{% static 'image/head.png' %}" class="rounded-circle" width="40" height="40" alt="">
+                  <span class="ms-2">{{ comment.author.username }}</span>
+              </div>
+              <div class="create-time" style="line-height: 40px;">{{ comment.pub_time }}</div>
+          </div>
+          <div class="mt-2">{{ comment.content }}</div>
+      </li>
+      {% endfor %}
+  </ul>
+</div>
+<script>
+  hljs.highlightAll();
+</script>
+{% endblock %}

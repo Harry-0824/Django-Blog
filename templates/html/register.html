@@ -1,0 +1,39 @@
+{% extends 'base.html'%}
+
+{%block title%}註冊{% endblock %}
+
+{% block head %}
+    <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'js/register.js' %}"></script>
+{% endblock  %}
+
+{% block main%}
+<div style="max-width: 330px;" class="m-auto">
+  <h2>註冊</h2>
+  <form action="" method="post">
+      {% csrf_token %}
+      <div class="mb-3">
+          <label>使用者名稱</label>
+          <input type="text" name="username" class="form-control" placeholder="使用者名稱">
+      </div>
+      <div class="mb-3">
+          <label>電子信箱</label>
+          <input type="email" name="email" class="form-control" placeholder="電子信箱">
+      </div>
+      <div class="mb-3">
+          <label>驗證碼</label>
+          <div class="input-group">
+              <input type="text" class="form-control" name="captcha" placeholder="驗證碼" aria-label="Recipient's username" aria-describedby="button-addon2">
+              <button class="btn btn-outline-secondary" type="button" id="captcha-btn">獲取驗證碼</button>
+          </div>
+        </div>
+      <div class="mb-3">
+          <label>密碼</label>
+          <input type="password" name="password" class="form-control" placeholder="密碼">
+      </div>
+      <div class="mb-3">
+          <button class="btn btn-primary w-100">立即註冊</button>
+      </div>
+  </form>
+</div>
+{% endblock %}
