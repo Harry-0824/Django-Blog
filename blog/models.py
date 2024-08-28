@@ -44,10 +44,10 @@ class BlogComment(models.Model):
         ordering = ['-pub_time']
 
 AVATAR_CHOICES = [
-    ('avatar1.png', 'Avatar 1'),
-    ('avatar2.png', 'Avatar 2'),
-    ('avatar3.png', 'Avatar 3'),
-    ('avatar4.png', 'Avatar 3')
+    ('avatar1.png', '吉依卡哇'),
+    ('avatar2.png', '小八貓'),
+    ('avatar3.png', '小八貓2'),
+    ('avatar4.png', '烏薩奇')
 ]
 
 class Profile(models.Model):

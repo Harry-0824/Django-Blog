@@ -1,10 +1,37 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block title %}頭像設置{% endblock %}
 
 {% block main %}
 <h2>頭像設置</h2>
-<form method="post" enctype="multipart/form-data">
+
+<div id="avatarPreviewContainer" style="margin-bottom: 20px;">
+    <img id="avatarPreview" src="{% static 'image/' %}{{ user.profile.avatar }}" alt="你的頭像" style="display: block; width: 200px; height: 200px; object-fit: cover; margin: 0 auto;">
+</div>
+
+<form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">保存</button>
+    <div class="avatar-options" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin-bottom: 20px;">
+        {% for radio in form.avatar %}
+            <label style="display: inline-block; cursor: pointer; padding: 10px 15px; border: 1px solid #ddd; border-radius: 5px;">
+                {{ radio.tag }}
+                <span>{{ radio.choice_label }}</span>
+            </label>
+        {% endfor %}
+    </div>
+    <div style="text-align: center;">
+        <button type="submit" class="btn btn-primary">保存</button>
+    </div>
 </form>
+
+<script>
+document.querySelectorAll('input[name="avatar"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        document.getElementById('avatarPreview').src = "{% static 'image/' %}" + this.value;
+    });
+});
+</script>
 {% endblock %}
+
+Version 5 of 5

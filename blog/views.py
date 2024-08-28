@@ -71,7 +71,7 @@ def avatar_settings(request):
         form = AvatarForm(request.POST, instance=request.user.profile)
         if form.is_valid():
             form.save()
-            return redirect('profile')
+            return redirect('/')
     else:
         form = AvatarForm(instance=request.user.profile)
     return render(request, 'avatar_settings.html', {'form': form})

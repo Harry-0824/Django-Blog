@@ -31,7 +31,7 @@
             {% if user.is_authenticated %}
                   <div class="dropdown text-end">
                     <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                      <img src="{% static 'image/head.png' %}" alt="mdo" width="32" height="32" class="rounded-circle">
+                      <img src="{% static 'image/' %}{{ user.profile.avatar }}" alt="頭像" width="32" height="32" class="rounded-circle">
                     </a>
                     <ul class="dropdown-menu text-small" style="">
                       <li><a class="dropdown-item" href="{% url 'djauth:logout'%}">登出</a></li>
