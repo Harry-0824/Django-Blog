@@ -123,9 +123,12 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
-#靜態文件加載路徑
-STATICFILES_DIRS =[
-    BASE_DIR / 'static'
+# 這是靜態文件的根目錄，用於收集所有靜態文件
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# 這是靜態文件的額外目錄，用於開發過程中
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
 ]
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
