@@ -1,4 +1,4 @@
-name: Deploy Django to EC2
+name: Deploy to EC2
 
 on:
   push:
@@ -13,24 +13,21 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
+    - name: Add SSH Key
+      run: echo "$EC2_KEY" > ~/.ssh/id_rsa
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install django gunicorn
+    - name: Set SSH Key Permissions
+      run: chmod 600 ~/.ssh/id_rsa
 
-    - name: Deploy to EC2
-      env:
-        EC2_HOST: ${{ secrets.EC2_HOST }}
-        EC2_USER: ${{ secrets.EC2_USER }}
-        EC2_KEY: ${{ secrets.EC2_KEY }}
+    - name: Skip host key checking
       run: |
-        scp -i $EC2_KEY -r . $EC2_USER@$EC2_HOST:~/mydjangoapp
-        ssh -i $EC2_KEY $EC2_USER@$EC2_HOST << 'EOF'
+        mkdir -p ~/.ssh
+        ssh-keyscan -H $EC2_HOST >> ~/.ssh/known_hosts
+
+    - name: Deploy application
+      run: |
+        scp -i ~/.ssh/id_rsa -r . $EC2_USER@$EC2_HOST:~/mydjangoapp
+        ssh -i ~/.ssh/id_rsa $EC2_USER@$EC2_HOST << 'EOF'
           cd ~/mydjangoapp
           source venv/bin/activate
           pip install -r requirements.txt
@@ -39,3 +36,7 @@ jobs:
           sudo systemctl restart gunicorn
           sudo systemctl restart nginx
         EOF
+      env:
+        EC2_HOST: ${{ secrets.EC2_HOST }}
+        EC2_USER: ${{ secrets.EC2_USER }}
+        EC2_KEY: ${{ secrets.EC2_KEY }}
