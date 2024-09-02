@@ -25,12 +25,12 @@ jobs:
 
     - name: Deploy to EC2
       env:
-        EC2_HOST: ${{ secrets.ec2-46-51-233-6.ap-northeast-1.compute.amazonaws.com }}
-        EC2_USER: ${{ secrets.ubuntu }}
-        EC2_KEY: ${{ secrets.aws-tokyo-djangoblog.pem }}
+        EC2_HOST: ${{ secrets.EC2_HOST }}
+        EC2_USER: ${{ secrets.EC2_USER }}
+        EC2_KEY: ${{ secrets.EC2_KEY }}
       run: |
-        scp -i $aws-tokyo-djangoblog.pem -r . $ubuntu@$ec2-46-51-233-6.ap-northeast-1.compute.amazonaws.com:~/mydjangoapp
-        ssh -i $aws-tokyo-djangoblog.pem $ubuntu@$ec2-46-51-233-6.ap-northeast-1.compute.amazonaws.com << 'EOF'
+        scp -i $EC2_KEY -r . $EC2_USER@$EC2_HOST:~/mydjangoapp
+        ssh -i $EC2_KEY $EC2_USER@$EC2_HOST << 'EOF'
           cd ~/mydjangoapp
           source venv/bin/activate
           pip install -r requirements.txt
