@@ -39,6 +39,16 @@ jobs:
     - name: Set SSH key permissions
       run: chmod 600 ~/.ssh/id_rsa
       shell: bash
+      
+    - name: Test SSH connection
+      run: ssh -i ~/.ssh/id_rsa $EC2_USER@$EC2_HOST echo "Connection successful"
+      shell: bash
+
+    - name: Print EC2_USER and EC2_HOST
+      run: |
+        echo "EC2_USER: $EC2_USER"
+        echo "EC2_HOST: $EC2_HOST"
+      shell: bash
 
     - name: Deploy to EC2
       env:
@@ -46,7 +56,7 @@ jobs:
         EC2_USER: ${{ secrets.EC2_USER }}
       run: |
         scp -i ~/.ssh/id_rsa -r . $EC2_USER@$EC2_HOST:~/mydjangoapp
-        ssh -i ~/.ssh/id_rsa $EC2_USER@$EC2_HOST << 'EOF'
+        ssh -i ~/.ssh/id_rsa -v $EC2_USER@$EC2_HOST << 'EOF'
           cd ~/mydjangoapp
           source venv/bin/activate
           pip install -r requirements.txt
