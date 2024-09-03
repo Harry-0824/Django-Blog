@@ -23,6 +23,12 @@ jobs:
         python -m pip install --upgrade pip
         pip install django gunicorn
 
+    - name: Disable host key checking
+      run: |
+        echo "Host *" > ~/.ssh/config
+        echo "  StrictHostKeyChecking no" >> ~/.ssh/config
+        echo "  UserKnownHostsFile=/dev/null" >> ~/.ssh/config
+
     - name: Deploy to EC2
       env:
         EC2_HOST: ${{ secrets.EC2_HOST }}
